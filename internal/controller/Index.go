@@ -14,12 +14,20 @@ func InitRouter() {
 	server.Post("/login", UserController.Login)
 
 	// ApplicationConfig
-	applicationConfig := server.Group("/applicationConfig", true, true)
-	applicationConfig.Post("/", ApplicationConfigController.Add)
-	applicationConfig.Put("/", ApplicationConfigController.Update)
-	applicationConfig.Delete("/", ApplicationConfigController.Delete)
-	applicationConfig.Get("/list", ApplicationConfigController.Paginate)
-	applicationConfig.Get("/instance", ApplicationConfigController.Get)
+	server.StandardRouter(
+		"/applicationConfig",
+		ApplicationConfigController.Add,
+		ApplicationConfigController.Update,
+		ApplicationConfigController.Delete,
+		ApplicationConfigController.Get,
+		ApplicationConfigController.Paginate,
+	)
+	//applicationConfig := server.Group("/applicationConfig", true, true)
+	//applicationConfig.Post("/", ApplicationConfigController.Add)
+	//applicationConfig.Put("/", ApplicationConfigController.Update)
+	//applicationConfig.Delete("/", ApplicationConfigController.Delete)
+	//applicationConfig.Get("/list", ApplicationConfigController.Paginate)
+	//applicationConfig.Get("/instance", ApplicationConfigController.Get)
 
 	// Application
 	server.StandardRouter(
@@ -89,7 +97,7 @@ func InitRouter() {
 }
 
 func parsePaginationInfoFromQuery(ctx *fiber.Ctx) (size, offset int, orderBy string, err error) {
-	sizeStr := ctx.Query("size", "10")
+	sizeStr := ctx.Query("limit", "10")
 	offsetStr := ctx.Query("offset", "0")
 	size, err = strconv.Atoi(sizeStr)
 	if err != nil {
