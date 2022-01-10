@@ -162,7 +162,10 @@ func (s *userService) Login(instance *domain.User) (string, error) {
 func generateToken(userId string, username string, expireInSecond int) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 	sid := util.GenerateDatabaseID()
-	err := cache.SetWithExpire(constant.AppSid+":"+sid, userId, expireInSecond)
+
+	rConn := cache.Redis.Get()
+	defer rConn.Close()
+	_, err := rConn.Do("SETEX", cache.Prefix+":"+constant.AppSid+":"+sid, expireInSecond, userId)
 	if err != nil {
 		return "", err
 	}

@@ -144,7 +144,7 @@ func (c *dictController) Paginate(ctx *fiber.Ctx) error {
 		}
 	}
 
-	total, list, err := service.DictService.PaginateBetweenTimes(pr.Dict, limit, offset, orderBy, timeRangeMap)
+	total, list, err := service.DictService.PaginateBetweenTimes(&pr.Dict, limit, offset, orderBy, timeRangeMap)
 	if err != nil {
 		logger.Error(err)
 		return ctx.JSON(&domain.CommonResponse{

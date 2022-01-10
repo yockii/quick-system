@@ -179,7 +179,7 @@ func (c *userController) Paginate(ctx *fiber.Ctx) error {
 		}
 	}
 
-	total, list, err := service.UserService.PaginateBetweenTimes(pr.User, limit, offset, orderBy, timeRangeMap)
+	total, list, err := service.UserService.PaginateBetweenTimes(&pr.User, limit, offset, orderBy, timeRangeMap)
 	if err != nil {
 		logger.Error(err)
 		return ctx.JSON(&domain.CommonResponse{

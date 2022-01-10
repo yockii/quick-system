@@ -27,7 +27,7 @@ func main() {
 	{
 		// 初始化缓存
 		if config.GetBool("redis.enable") {
-			cache.UseRedis(
+			cache.InitRedis(
 				config.GetString("redis.prefix"),
 				config.GetString("redis.host"),
 				config.GetString("redis.password"),
@@ -35,9 +35,6 @@ func main() {
 				config.GetInt("redis.maxIdle"),
 				config.GetInt("redis.maxActive"),
 			)
-			defer cache.Close()
-		} else {
-			cache.UseMemory()
 			defer cache.Close()
 		}
 	}

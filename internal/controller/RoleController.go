@@ -144,7 +144,7 @@ func (c *roleController) Paginate(ctx *fiber.Ctx) error {
 		}
 	}
 
-	total, list, err := service.RoleService.PaginateBetweenTimes(pr.Role, limit, offset, orderBy, timeRangeMap)
+	total, list, err := service.RoleService.PaginateBetweenTimes(&pr.Role, limit, offset, orderBy, timeRangeMap)
 	if err != nil {
 		logger.Error(err)
 		return ctx.JSON(&domain.CommonResponse{

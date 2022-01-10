@@ -144,7 +144,7 @@ func (c *resourceController) Paginate(ctx *fiber.Ctx) error {
 		}
 	}
 
-	total, list, err := service.ResourceService.PaginateBetweenTimes(pr.Resource, limit, offset, orderBy, timeRangeMap)
+	total, list, err := service.ResourceService.PaginateBetweenTimes(&pr.Resource, limit, offset, orderBy, timeRangeMap)
 	if err != nil {
 		logger.Error(err)
 		return ctx.JSON(&domain.CommonResponse{
