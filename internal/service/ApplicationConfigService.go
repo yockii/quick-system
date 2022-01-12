@@ -57,8 +57,7 @@ func (s *applicationConfigService) Update(instance *model.ApplicationConfig) (bo
 
 	c, err := database.DB.ID(instance.Id).Update(&model.ApplicationConfig{
 		// 允许更改的字段
-		Pc:     instance.Pc,
-		Mobile: instance.Mobile,
+		PageType: instance.PageType,
 	})
 	if err != nil {
 		return false, err
