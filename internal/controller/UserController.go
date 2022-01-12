@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/yockii/qscore/pkg/authorization"
 	"github.com/yockii/qscore/pkg/constant"
 	"github.com/yockii/qscore/pkg/domain"
 	"github.com/yockii/qscore/pkg/logger"
@@ -43,8 +44,36 @@ func (c *userController) Login(ctx *fiber.Ctx) error {
 			Msg:  "登录失败",
 		})
 	}
+
+	isSuperAdmin, resourceIds, err := authorization.GetSubjectResourceIds(instance.Id, "")
+	if err != nil {
+		logger.Error(err)
+		return ctx.JSON(&domain.CommonResponse{
+			Code: constant.ErrorCodeService,
+			Msg:  "服务出现异常",
+		})
+	}
+
+	resources := make([]*domain.Resource, 0)
+	if !isSuperAdmin {
+		resources, err = service.ResourceService.ListByIdList(resourceIds)
+		if err != nil {
+			logger.Error(err)
+			return ctx.JSON(&domain.CommonResponse{
+				Code: constant.ErrorCodeService,
+				Msg:  "服务出现异常",
+			})
+		}
+	}
+
 	return ctx.JSON(&domain.CommonResponse{
-		Data: token,
+		//Data: token,
+		Data: map[string]interface{}{
+			"token":      token,
+			"user":       instance,
+			"superAdmin": isSuperAdmin,
+			"resources":  resources,
+		},
 	})
 }
 

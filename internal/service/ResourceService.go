@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/yockii/qscore/pkg/database"
 	"github.com/yockii/qscore/pkg/domain"
@@ -149,4 +150,19 @@ func (s *resourceService) PaginateBetweenTimes(condition *domain.Resource, limit
 		return 0, nil, err
 	}
 	return int(total), list, nil
+}
+
+func (s *resourceService) ListByIdList(ids []string) (resList []*domain.Resource, err error) {
+	if len(ids) == 0 {
+		return
+	}
+	idsStr := ""
+	for _, id := range ids {
+		if idsStr != "" {
+			idsStr += ","
+		}
+		idsStr += fmt.Sprintf("'%s'", id)
+	}
+	err = database.DB.Where("id in (?)", idsStr).Find(&resList)
+	return
 }
