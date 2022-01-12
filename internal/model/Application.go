@@ -28,8 +28,7 @@ type ApplicationSource struct {
 type ApplicationConfig struct {
 	Id               string `json:"id,omitempty" xorm:"pk varchar(50)"`
 	ApplicationId    string `json:"applicationId,omitempty" xorm:"index varchar(50)"`
-	Pc               int    `json:"pc,omitempty" xorm:"int(1) comment('生成PC界面，0未配置 1生成 2不生成')"`
-	Mobile           int    `json:"mobile,omitempty" xorm:"int(1) comment('生成手机端界面，0未配置 1生成 2不生成')"`
+	PageType         int    `json:"pageType,omitempty" xorm:"int comment('要生成的页面类型 1-PC界面 2-手机端 4-大屏界面')"`
 	TokenExpireHours int    `json:"tokenExpireHours,omitempty" xorm:"comment('token失效时长')"`
 }
 
