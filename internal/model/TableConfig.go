@@ -21,7 +21,7 @@ type ColumnConfig struct {
 	DisplayName   string `json:"displayName,omitempty" xorm:"comment('字段显示名')"`
 	ColumnComment string `json:"columnComment,omitempty" xorm:"comment('字段说明')"`
 	DisplayType   int    `json:"displayType,omitempty" xorm:"comment('显示类型 0-未设置 1-添加显示 2-更新显示 4-列表显示 8-详情显示')"`
-	ColumnType    int    `json:"columnType,omitempty" xorm:"comment('字段类型 0-未知 1-string 2-int 3-DateTime')"`
+	ColumnType    int    `json:"columnType,omitempty" xorm:"comment('字段类型 0-未知 1-string 2-int 3-DateTime 4-decimal')"`
 	UpdateType    int    `json:"updateType,omitempty" xorm:"comment('字段更新方式 0-未设置 1-允许新增 2-允许更改 4-允许作为查询条件')"`
 	UpdateAlone   int    `json:"updateAlone,omitempty" xorm:"comment('独立更改 0-未设置 1-只能独立更改 将会生成单独的接口进行更改')"`
 	ZeroValue     string `json:"zeroValue,omitempty" xorm:"comment('空时默认值 !NIL-表示不允许为空，如有其他值表示为空时采用该默认值')"`
